@@ -89,16 +89,6 @@ define([
     var AutoField = Forms.AutoField;
 
 
-     function intersperse (sep, xs) {
-        var i = xs.length;
-        if (i < 2) return xs;
-        i = i * 2 - 1;
-        var ys = new Array(i);
-        while (i--) ys[i] = i % 2 === 0 ? xs[Math.floor(i / 2)] : sep;
-        return ys;
-    }
-
-
     function entrypoint(rootEl) {
         React.renderComponent(<App/>, rootEl);
     }
