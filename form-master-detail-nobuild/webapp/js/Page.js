@@ -1,10 +1,10 @@
 /** @jsx React.DOM */
 define([
-    'underscore', 'react', 'jquery', 'wingspan-forms', 'wingspan-cursor', 'wingspan-contrib',
+    'underscore', 'react', 'jquery', 'wingspan-forms', 'wingspan-cursor', 'wingspan-contrib', 'react-json-editor',
     'util',
     'text!textassets/types/Contact.json',
     'text!textassets/contacts.json'
-], function (_, React, $, Forms, Cursor, Contrib,
+], function (_, React, $, Forms, Cursor, Contrib, JsonEditor,
              util, ContactModel, contacts) {
     'use strict';
 
