@@ -43,7 +43,7 @@ define([
         render: function () {
 
             var list = _.map(this.props.cursor.refine('database').value, function (record) {
-                return (<li><a href="javascript:void(0)" onClick={_.partial(this.onTargetChange, record.id)}>{record.lastName}</a></li>);
+                return (<li><button onClick={_.partial(this.onTargetChange, record.id)}>{record.lastName}</button></li>);
             }.bind(this));
 
             return (
