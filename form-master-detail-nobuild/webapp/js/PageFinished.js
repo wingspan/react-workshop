@@ -1,10 +1,10 @@
 /** @jsx React.DOM */
 define([
-    'underscore', 'react', 'jquery', 'wingspan-forms', 'wingspan-cursor', 'wingspan-contrib',
+    'underscore', 'react', 'jquery', 'wingspan-forms', 'wingspan-cursor', 'wingspan-contrib', 'react-json-editor',
     'util',
     'text!textassets/types/Contact.json',
     'text!textassets/contacts.json'
-], function (_, React, $, Forms, Cursor, Contrib,
+], function (_, React, $, Forms, Cursor, Contrib, JsonEditor,
              util, ContactModel, contacts) {
     'use strict';
 
@@ -43,7 +43,7 @@ define([
         render: function () {
 
             var list = _.map(this.props.cursor.refine('database').value, function (record) {
-                return (<li><a href="javascript:void(0)" onClick={_.partial(this.onTargetChange, record.id)}>{record.lastName}</a></li>);
+                return (<li><button onClick={_.partial(this.onTargetChange, record.id)}>{record.lastName}</button></li>);
             }.bind(this));
 
             return (
@@ -51,8 +51,8 @@ define([
                     <div>
                         <ol>{list}</ol>
                         <AutoForm
-                        metadata={ContactModel}
-                        cursor={this.props.cursor.refine('form')} />
+                            metadata={ContactModel}
+                            cursor={this.props.cursor.refine('form')} />
                         <button onClick={this.onSave}>Save</button>
                     </div>
                 </div>
