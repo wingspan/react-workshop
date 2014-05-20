@@ -1,0 +1,38 @@
+@import (less) "../lib/kendo-ui/styles/kendo.common.css";
+@import (less) "../lib/kendo-ui/styles/kendo.default.css";
+@import (less) "../lib/wingspan-forms/wingspan-forms.css";
+
+body {
+  overflow: scroll
+}
+
+.App {
+  display:table;
+  padding: 10px;
+
+  > div {
+    display:table-cell;
+    width: 67%;
+    padding: 10px;
+    vertical-align: top;
+  }
+  > pre {
+    display:table-cell;
+    width: 33%;
+    padding: 10px;
+    vertical-align: top;
+  }
+}
+
+.FormTwins {
+  display: table;
+
+  > div {
+    display: table-row;
+
+    > div {
+      display: table-cell;
+      padding: 10px;
+    }
+  }
+}
