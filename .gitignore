@@ -1,0 +1,6 @@
+Thumbs.db
+*.iml
+build.log
+.idea/
+.DS_STORE
+.grunt
