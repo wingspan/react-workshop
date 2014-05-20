@@ -1,10 +1,10 @@
 /** @jsx React.DOM */
 define([
-    'underscore', 'react', 'jquery', 'wingspan-forms', 'wingspan-cursor', 'wingspan-contrib',
+    'underscore', 'react', 'jquery', 'wingspan-forms', 'wingspan-cursor', 'wingspan-contrib', 'react-json-editor',
     'util',
     'text!textassets/types/Contact.json',
     'text!textassets/contacts.json'
-], function (_, React, $, Forms, Cursor, Contrib,
+], function (_, React, $, Forms, Cursor, Contrib, JsonEditor,
              util, ContactModel, contacts) {
     'use strict';
 
@@ -28,7 +28,7 @@ define([
                     <MasterDetailDemo metadata={ContactModel} cursor={cursor.refine('MasterDetail')} />
                     <pre>{JSON.stringify(cursor.value, undefined, 2)}</pre>
                 </div>
-                );
+            );
         }
     });
 
@@ -50,9 +50,9 @@ define([
                 <div className="MasterDetailDemo">
                     <div>
                         <ol>{list}</ol>
-                        <AutoForm
-                        metadata={ContactModel}
-                        cursor={this.props.cursor.refine('form')} />
+                            <AutoForm
+                                metadata={ContactModel}
+                                cursor={this.props.cursor.refine('form')} />
                         <button onClick={this.onSave}>Save</button>
                     </div>
                 </div>
