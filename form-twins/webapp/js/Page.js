@@ -48,6 +48,12 @@ define([
             }.bind(this));
 
             return (<div className="FormTwins">{forms}</div>);
+        },
+
+        shouldComponentUpdate: function (nextProps, nextState) {
+            return (
+                !_.isEqual(_.omit(this.props, 'cursor'), _.omit(nextProps, 'cursor')) ||
+                !_.isEqual(this.props.cursor.value, nextProps.cursor.value));
         }
     });
 
@@ -70,6 +76,12 @@ define([
             }.bind(this));
 
             return (<div className="AutoForm">{controls}</div>);
+        },
+
+        shouldComponentUpdate: function (nextProps, nextState) {
+            return (
+                !_.isEqual(_.omit(this.props, 'cursor'), _.omit(nextProps, 'cursor')) ||
+                !_.isEqual(this.props.cursor.value, nextProps.cursor.value));
         }
     });
 
