@@ -10,6 +10,18 @@ define([
              util, ContactModel, contacts) {
     'use strict';
 
+    var Root = React.createClass({
+        render: function () {
+            var fun = _.range(10).map(function () {
+                return (<App />);
+            });
+            return (
+                <div>
+                    {fun}
+                </div>
+            );
+        }
+    });
 
 
     var App = React.createClass({
@@ -30,7 +42,7 @@ define([
             console.log('Clicker render');
             return (
                 <div>
-                    <span>{this.props.cursor.refine('count').value}</span>
+                    <span>{this.props.cursor.refine('count').value()}</span>
                     <button onClick={this.inc2}>+2</button>
                     <button onClick={this.inc10}>+10</button>
                 </div>
@@ -39,13 +51,13 @@ define([
 
         inc2: function () {
             var countCursor = this.props.cursor.refine('count');
-            countCursor.onChange(countCursor.value + 1);
-            countCursor.onChange(countCursor.value + 1);
+            countCursor.onChange(countCursor.value() + 1);
+            countCursor.onChange(countCursor.value() + 1);
         },
 
         inc10: function () {
             var countCursor = this.props.cursor.refine('count');
-            countCursor.onChange(countCursor.value + 10);
+            countCursor.onChange(countCursor.value() + 10);
         }
     });
 
@@ -53,7 +65,7 @@ define([
 
     function entrypoint(rootEl) {
         React.ReactUpdates.injection.injectBatchingStrategy(CustomBatchingStrategy);
-        React.renderComponent(<App/>, rootEl);
+        React.renderComponent(<Root />, rootEl);
 
         function tick() {
             React.ReactUpdates.flushBatchedUpdates();
