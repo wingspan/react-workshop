@@ -10,11 +10,19 @@ define([
              util, ContactModel, contacts) {
     'use strict';
 
-    var Root = React.createClass({
+    var App = React.createClass({
+        getInitialState: function () {
+            return { counts: _.range(100000).map(function () { return ''+0; }) };
+        },
+
+        componentWillMount: function () {
+            this.cursor = Cursor.build(this.state, this.setState.bind(this), util.deepClone);
+        },
+
         render: function () {
-            var fun = _.range(10).map(function () {
-                return (<App />);
-            });
+            var fun = this.state.counts.map(function (count, index) {
+                return (<Clicker cursor={this.cursor.refine('counts', index)} />);
+            }.bind(this));
             return (
                 <div>
                     {fun}
@@ -23,40 +31,33 @@ define([
         }
     });
 
-
-    var App = React.createClass({
-        getInitialState: function () {
-            return {
-                count: 0
-            };
-        },
-        render: function() {
-            console.log('App render');
-            var cursor = Cursor.build(this.state, this.setState.bind(this), util.deepClone);
-            return this.transferPropsTo(<Clicker cursor={cursor}/>);
-        }
-    });
+    var KendoText = Forms.KendoText;
 
     var Clicker = React.createClass({
         render: function () {
-            console.log('Clicker render');
             return (
                 <div>
-                    <span>{this.props.cursor.refine('count').value()}</span>
+                    <KendoText value={this.props.cursor.value()} onChange={this.onInputChange} />
+                    <span>{this.props.cursor.value()}</span>
                     <button onClick={this.inc2}>+2</button>
                     <button onClick={this.inc10}>+10</button>
                 </div>
             );
         },
 
+        onInputChange: function (e) {
+            return;
+            this.props.cursor.onChange(e); //e.target.value
+        },
+
         inc2: function () {
-            var countCursor = this.props.cursor.refine('count');
+            var countCursor = this.props.cursor;
             countCursor.onChange(countCursor.value() + 1);
             countCursor.onChange(countCursor.value() + 1);
         },
 
         inc10: function () {
-            var countCursor = this.props.cursor.refine('count');
+            var countCursor = this.props.cursor;
             countCursor.onChange(countCursor.value() + 10);
         }
     });
@@ -65,11 +66,11 @@ define([
 
     function entrypoint(rootEl) {
         React.ReactUpdates.injection.injectBatchingStrategy(CustomBatchingStrategy);
-        React.renderComponent(<Root />, rootEl);
+        React.renderComponent(<App />, rootEl);
 
         function tick() {
             React.ReactUpdates.flushBatchedUpdates();
-            setTimeout(tick, 5000);
+            setTimeout(tick, 0);
         }
 
         tick();
