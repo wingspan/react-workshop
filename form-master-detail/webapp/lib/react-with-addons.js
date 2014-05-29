@@ -4306,6 +4306,11 @@ var ReactCurrentOwner = _dereq_("./ReactCurrentOwner");
 var ReactOwner = _dereq_("./ReactOwner");
 var ReactUpdates = _dereq_("./ReactUpdates");
 
+    setTimeout(function () {
+        var React = require('react');
+        React.ReactUpdates = ReactUpdates;
+    });
+
 var invariant = _dereq_("./invariant");
 var keyMirror = _dereq_("./keyMirror");
 var merge = _dereq_("./merge");
