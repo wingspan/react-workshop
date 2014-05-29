@@ -12,7 +12,7 @@ define([
 
     var App = React.createClass({
         getInitialState: function () {
-            return { counts: _.range(100000).map(function () { return ''+0; }) };
+            return { counts: _.range(1000).map(function () { return ''+0; }) };
         },
 
         componentWillMount: function () {
@@ -21,7 +21,7 @@ define([
 
         render: function () {
             var fun = this.state.counts.map(function (count, index) {
-                return (<Clicker cursor={this.cursor.refine('counts', index)} />);
+                return (<Clicker key={index} cursor={this.cursor.refine('counts', index)} />);
             }.bind(this));
             return (
                 <div>
@@ -37,7 +37,7 @@ define([
         render: function () {
             return (
                 <div>
-                    <KendoText value={this.props.cursor.value()} onChange={this.onInputChange} />
+                    <input type="text" value={this.props.cursor.value()} onChange={this.onInputChange} />
                     <span>{this.props.cursor.value()}</span>
                     <button onClick={this.inc2}>+2</button>
                     <button onClick={this.inc10}>+10</button>
@@ -46,8 +46,7 @@ define([
         },
 
         onInputChange: function (e) {
-            return;
-            this.props.cursor.onChange(e); //e.target.value
+            this.props.cursor.onChange(e.target.value);
         },
 
         inc2: function () {
@@ -59,6 +58,10 @@ define([
         inc10: function () {
             var countCursor = this.props.cursor;
             countCursor.onChange(countCursor.value() + 10);
+        },
+
+        shouldComponentUpdate: function (nextProps) {
+            return this.props.cursor.value() != nextProps.cursor.value();
         }
     });
 
@@ -70,7 +73,7 @@ define([
 
         function tick() {
             React.ReactUpdates.flushBatchedUpdates();
-            setTimeout(tick, 0);
+            setTimeout(tick, 1000);
         }
 
         tick();
