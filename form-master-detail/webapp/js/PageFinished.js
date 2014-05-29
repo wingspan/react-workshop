@@ -32,6 +32,7 @@ define([
                 <div>
                     <span>{this.props.cursor.refine('count').value}</span>
                     <button onClick={this.inc2}>+2</button>
+                    <button onClick={this.inc10}>+10</button>
                 </div>
             );
         },
@@ -40,6 +41,11 @@ define([
             var countCursor = this.props.cursor.refine('count');
             countCursor.onChange(countCursor.value + 1);
             countCursor.onChange(countCursor.value + 1);
+        },
+
+        inc10: function () {
+            var countCursor = this.props.cursor.refine('count');
+            countCursor.onChange(countCursor.value + 10);
         }
     });
 
@@ -51,7 +57,7 @@ define([
 
         function tick() {
             React.ReactUpdates.flushBatchedUpdates();
-            setTimeout(tick, 500);
+            setTimeout(tick, 5000);
         }
 
         tick();
