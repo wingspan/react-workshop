@@ -31,8 +31,9 @@ define([
                 return (<Clicker key={index} cursor={counts.refine(index)} />);
             }.bind(this));
             return (
-                <div>
-                    {fun}
+                <div className="App">
+                  <div className="MasterDetailDemo">{fun}</div>
+                  <JsonEditor targetCursor={cursor} />
                 </div>
             );
         }
@@ -52,25 +53,17 @@ define([
             );
         },
 
-        componentWillMount: function () {
-            this.cursor = this.props.cursor;
-        },
-
-        componentWillUpdate: function (nextProps) {
-            this.cursor = nextProps.cursor;
-        },
-
         onInputChange: function (e) {
-            this.cursor = this.cursor.onChange(parseInt(e.target.value, 10));
+            this.props.cursor.onChange(parseInt(e.target.value, 10));
         },
 
         inc2: function () {
-            this.cursor = this.cursor.onChange(this.cursor.pendingValue() + 1);
-            this.cursor = this.cursor.onChange(this.cursor.pendingValue() + 1);
+            this.props.cursor.onChange(this.props.cursor.pendingValue() + 1);
+            this.props.cursor.onChange(this.props.cursor.pendingValue() + 1);
         },
 
         inc10: function () {
-            this.cursor = this.cursor.onChange(this.cursor.pendingValue() + 10);
+            this.props.cursor.onChange(this.props.cursor.pendingValue() + 10);
         },
 
         shouldComponentUpdate: function (nextProps) {
