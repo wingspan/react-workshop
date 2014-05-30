@@ -2,16 +2,16 @@ define([], function () {
   'use strict';
 
   // this constructor is private
-  function Cursor(state, path, commit, clone) {
-    state = clone(state); // defensive clone right away so we can't close over a stale state reference
-    this.value = getRefAtPath(state, path);
+  function Cursor(state, pendingGetter, path, commit, clone) {
+    this.value = clone(getRefAtPath(state, path));
+    this.pendingValue = clone(getRefAtPath(pendingGetter(), path));
 
     this.onChange = function (nextValue) {
       var nextState;
       nextValue = clone(nextValue); // because the call site might retain the reference and mutate
 
       if (path.length > 0) {
-        nextState = state;
+        nextState = clone(pendingGetter());
         var scoped = getRefAtPath(nextState, initial(path));
         scoped[last(path)] = nextValue;
       }
@@ -19,12 +19,12 @@ define([], function () {
         nextState = nextValue;
       }
       commit(nextState);
-      return new Cursor(nextState, path, commit, clone);
+      return new Cursor(state, pendingGetter, path, commit, clone);
     };
 
     this.refine = function (/* one or more paths through the tree */) {
       var nextPath = [].concat(path, flatten(arguments));
-      return new Cursor(state, nextPath, commit, clone);
+      return new Cursor(state, pendingGetter, nextPath, commit, clone);
     };
   }
 
@@ -34,8 +34,8 @@ define([], function () {
    * Cursor.build(this.state, this.setState.bind(this), _.cloneDeep);
    * Cursor.build(this.notState, function (nextState) { merge(this.notReactState, nextState); }.bind(this), _.identity);
    */
-  Cursor.build = function (state, commit, clone) {
-    return new Cursor(state, [], commit, clone);
+  Cursor.build = function (state, pendingGetter, commit, clone) {
+    return new Cursor(state, pendingGetter, [], commit, clone);
   };
 
 

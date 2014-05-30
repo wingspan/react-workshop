@@ -15,12 +15,16 @@ define([
             return { counts: _.range(100).map(function () { return 0; }) };
         },
 
+        pendingState: function () {
+            return this._pendingState || this.state;
+        },
+
         componentWillMount: function () {
             window.App = this;
         },
 
         render: function () {
-            var cursor = Cursor.build(this.state, this.setState.bind(this), util.deepClone);
+            var cursor = Cursor.build(this.state, this.pendingState, this.setState.bind(this), util.deepClone);
             var counts = cursor.refine('counts');
 
             var fun = counts.value.map(function (count, index) {
@@ -61,12 +65,12 @@ define([
         },
 
         inc2: function () {
-            this.cursor = this.cursor.onChange(this.cursor.value + 1);
-            this.cursor = this.cursor.onChange(this.cursor.value + 1);
+            this.cursor = this.cursor.onChange(this.cursor.pendingValue + 1);
+            this.cursor = this.cursor.onChange(this.cursor.pendingValue + 1);
         },
 
         inc10: function () {
-            this.cursor = this.cursor.onChange(this.cursor.value + 10);
+            this.cursor = this.cursor.onChange(this.cursor.pendingValue + 10);
         },
 
         shouldComponentUpdate: function (nextProps) {
