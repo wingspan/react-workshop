@@ -1,14 +1,16 @@
 define([], function () {
   'use strict';
 
-  // this constructor is private
+
   function Cursor(state, pendingGetter, path, commit, clone) {
-    this.value = clone(getRefAtPath(state, path));
-    this.pendingValue = clone(getRefAtPath(pendingGetter(), path));
+    this.value = clone(getRefAtPath(state, path)); // value to put in the DOM, use from render()
+    this.pendingValue = function () {
+      return clone(getRefAtPath(pendingGetter(), path)); // value now, use in event handlers
+    }
 
     this.onChange = function (nextValue) {
       var nextState;
-      nextValue = clone(nextValue); // because the call site might retain the reference and mutate
+      nextValue = clone(nextValue);
 
       if (path.length > 0) {
         nextState = clone(pendingGetter());

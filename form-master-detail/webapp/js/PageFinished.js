@@ -65,17 +65,17 @@ define([
         },
 
         inc2: function () {
-            this.cursor = this.cursor.onChange(this.cursor.pendingValue + 1);
-            this.cursor = this.cursor.onChange(this.cursor.pendingValue + 1);
+            this.cursor = this.cursor.onChange(this.cursor.pendingValue() + 1);
+            this.cursor = this.cursor.onChange(this.cursor.pendingValue() + 1);
         },
 
         inc10: function () {
-            this.cursor = this.cursor.onChange(this.cursor.pendingValue + 10);
+            this.cursor = this.cursor.onChange(this.cursor.pendingValue() + 10);
         },
 
         shouldComponentUpdate: function (nextProps) {
-            return true;
-            //this.props.cursor.value !== nextProps.cursor.value;
+            //return true;
+            return this.props.cursor.value !== nextProps.cursor.value;
         }
     });
 
