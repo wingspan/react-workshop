@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 define([
-    'underscore', 'react', 'jquery', 'wingspan-forms', 'Cursor', 'wingspan-contrib', 'react-json-editor',
+    'underscore', 'react', 'jquery', 'wingspan-forms', 'ReactCursor', 'wingspan-contrib', 'react-json-editor',
     'CustomBatchingStrategy',
     'util',
     'text!textassets/types/Contact.json',
@@ -12,16 +12,19 @@ define([
 
     var App = React.createClass({
         getInitialState: function () {
-            return { counts: _.range(1000).map(function () { return ''+0; }) };
+            return { counts: _.range(100).map(function () { return 0; }) };
         },
 
         componentWillMount: function () {
-            this.cursor = Cursor.build(this.state, this.setState.bind(this), util.deepClone);
+            window.App = this;
         },
 
         render: function () {
-            var fun = this.state.counts.map(function (count, index) {
-                return (<Clicker key={index} cursor={this.cursor.refine('counts', index)} />);
+            var cursor = Cursor.build(this.state, this.setState.bind(this), util.deepClone);
+            var counts = cursor.refine('counts');
+
+            var fun = counts.value.map(function (count, index) {
+                return (<Clicker key={index} cursor={counts.refine(index)} />);
             }.bind(this));
             return (
                 <div>
@@ -37,31 +40,38 @@ define([
         render: function () {
             return (
                 <div>
-                    <input type="text" value={this.props.cursor.value()} onChange={this.onInputChange} />
-                    <span>{this.props.cursor.value()}</span>
+                    <input type="text" value={this.props.cursor.value} onChange={this.onInputChange} />
+                    <span>{this.props.cursor.value}</span>
                     <button onClick={this.inc2}>+2</button>
                     <button onClick={this.inc10}>+10</button>
                 </div>
             );
         },
 
+        componentWillMount: function () {
+            this.cursor = this.props.cursor;
+        },
+
+        componentWillUpdate: function (nextProps) {
+            this.cursor = nextProps.cursor;
+        },
+
         onInputChange: function (e) {
-            this.props.cursor.onChange(e.target.value);
+            this.cursor = this.cursor.onChange(parseInt(e.target.value, 10));
         },
 
         inc2: function () {
-            var countCursor = this.props.cursor;
-            countCursor.onChange(countCursor.value() + 1);
-            countCursor.onChange(countCursor.value() + 1);
+            this.cursor = this.cursor.onChange(this.cursor.value + 1);
+            this.cursor = this.cursor.onChange(this.cursor.value + 1);
         },
 
         inc10: function () {
-            var countCursor = this.props.cursor;
-            countCursor.onChange(countCursor.value() + 10);
+            this.cursor = this.cursor.onChange(this.cursor.value + 10);
         },
 
         shouldComponentUpdate: function (nextProps) {
-            return this.props.cursor.value() != nextProps.cursor.value();
+            return true;
+            //this.props.cursor.value !== nextProps.cursor.value;
         }
     });
 
