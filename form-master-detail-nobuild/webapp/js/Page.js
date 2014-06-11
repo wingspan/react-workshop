@@ -1,47 +1,21 @@
 /** @jsx React.DOM */
-define([
-    'underscore', 'react', 'jquery', 'wingspan-forms', 'wingspan-cursor', 'wingspan-contrib',
-    'util',
-    'text!textassets/types/Contact.json',
-    'text!textassets/contacts.json'
-], function (_, React, $, Forms, Cursor, Contrib,
-             util, ContactModel, contacts) {
+define(['underscore', 'react'],
+function (_, React) {
     'use strict';
 
-    var ContactModel = JSON.parse(ContactModel).data;
-    var contacts = JSON.parse(contacts).data;
 
 
-    var App = React.createClass({
-        getInitialState: function () {
-            return {
-                MasterDetail: {
-                    database: contacts,
-                    form: contacts[0]
-                }
-            };
-        },
-
-        render: function () {
-            window.App = this;
-
+    var Hello = React.createClass({
+        render: function() {
             return (
-                <div className="App">
-                    <pre>{JSON.stringify(this.state, undefined, 2)}</pre>
-                </div>
-            );
+                <div>Hello {this.props.name}</div>
+                );
         }
     });
 
-
-    window.Cursor = Cursor;
-    window.util = util;
-
-    function entrypoint(rootEl) {
-        React.renderComponent(<App/>, rootEl);
+    function entrypoint() {
+        React.renderComponent(<Hello name="World" />, document.getElementById('root'));
     }
 
-    return {
-        entrypoint: entrypoint
-    };
+    return { entrypoint: entrypoint };
 });
