@@ -1,0 +1,18 @@
+{
+    "firstName": { "dataType": "text", "label": "First Name", "name": "firstName" },
+    "lastName": { "dataType": "text", "label": "Last Name", "name": "lastName" },
+    "gender": {
+        "dataType": "enum",
+        "label": "Gender",
+        "name": "gender",
+        "options": {
+            "metadata": { "idProperty": "id", "nameProperty": "label" },
+            "dataSource": [
+                { "id": "male", "label": "Male" },
+                { "id": "female", "label": "Female" }
+            ]
+        }
+    },
+    "age": { "dataType": "number", "label": "Age", "name": "age" },
+    "birthday": { "dataType": "date", "label": "Birthday", "name": "birthday" }
+}
